@@ -116,7 +116,6 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     return cto;
   }
 
-  @RolesAllowed(Roles.WAITER)
   public PaginatedListTo<OrderCto> findOrdersByPost(OrderSearchCriteriaTo criteria) {
 
     return findOrderCtos(criteria);
