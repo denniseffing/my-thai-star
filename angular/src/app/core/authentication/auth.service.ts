@@ -5,17 +5,19 @@ import { Role } from '../../shared/viewModels/interfaces';
 
 @Injectable()
 export class AuthService {
-    private logged: boolean = false;
     private user: string = '';
     private currentRole: string = 'CUSTOMER';
     private token: string;
+    private expiresAt: any;
 
-    public isLogged(): boolean {
-        return this.logged;
+    constructor() {
+        this.loadExistingSession();
     }
 
-    public setLogged(login: boolean): void {
-        this.logged = login;
+    public isLogged(): boolean {
+        // Check whether the current time is past the
+        // access token's expiry time
+        return new Date().getTime() < this.expiresAt;
     }
 
     public getUser(): string {
@@ -46,4 +48,22 @@ export class AuthService {
     public isPermited(userRole: string): boolean {
         return this.getPermission(this.currentRole) === this.getPermission(userRole);
     }
+
+    public setExpiresAt(expiresAt: any): void {
+        this.expiresAt = expiresAt;
+    }
+
+    public loadExistingSession() {
+        const idToken = localStorage.getItem('id_token');
+        const expiresAt = localStorage.getItem('expires_at');
+        const username = localStorage.getItem('username');
+        const userrole = localStorage.getItem('userrole');
+
+        if (idToken) {
+            this.setToken(idToken);
+            this.setExpiresAt(expiresAt);
+            this.setUser(username);
+            this.setRole(userrole);
+        }
+    };
 }

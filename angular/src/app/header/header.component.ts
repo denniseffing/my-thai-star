@@ -79,21 +79,7 @@ export class HeaderComponent {
   }
 
   openLoginDialog(): void {
-    const dialogRef: MatDialogRef<LoginDialogComponent> = this.dialog.open(
-      LoginDialogComponent,
-      {
-        width: this.window.responsiveWidth(),
-      },
-    );
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        if (result.email) {
-          this.userService.register(result.email, result.password);
-        } else {
-          this.userService.login(result.username, result.password);
-        }
-      }
-    });
+    this.userService.login();    
   }
 
   openResetDialog(): void {

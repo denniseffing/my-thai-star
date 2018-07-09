@@ -10,8 +10,10 @@ import { EmailConfirmationsComponent } from './email-confirmations/email-confirm
 import { NotFoundComponent } from './core/not-found/not-found.component';
 
 import { AuthGuardService } from './core/authentication/auth-guard.service';
+import { CallbackComponent } from './callback/callback.component';
 
 const appRoutes: Routes = [
+  { path: 'callback', component: CallbackComponent },
   { path: 'restaurant', component: HomeComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
   { path: 'bookTable', component: BookTableComponent },
