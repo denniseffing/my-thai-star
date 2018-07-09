@@ -7,7 +7,7 @@ import { BackendType } from 'app/config';
 export const environment: {production: boolean, backendType: BackendType, authCallback: string, restPathRoot: string, restServiceRoot: string} = {
   production: false,
   backendType: BackendType.REST,
-  authCallback: 'http://localhost:4200/callback',
+  authCallback: `${location.origin}/callback/`,
   restPathRoot: 'http://localhost:8081/mythaistar/',
   restServiceRoot: 'http://localhost:8081/mythaistar/services/rest/',
 };
