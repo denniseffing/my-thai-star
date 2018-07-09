@@ -33,7 +33,7 @@ export class AuthService {
     }
 
     public setToken(token: string): void {
-        this.token = token;
+        this.token = `Bearer ${token}`;
     }
 
     public setRole(role: string): void {
