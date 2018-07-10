@@ -51,7 +51,7 @@ export class UserAreaService {
           if (data) {
             const user: any = {
               nickname: data['nickname'],
-              role:  data['http://app.example.com/groups'][0]
+              role:  data['http://app.example.com/group']
             }
 
             this.setSession(authResult, user);
