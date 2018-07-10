@@ -53,11 +53,11 @@ export class AuthService {
         this.expiresAt = expiresAt;
     }
 
-    public loadExistingSession() {
-        const idToken = localStorage.getItem('id_token');
-        const expiresAt = localStorage.getItem('expires_at');
-        const username = localStorage.getItem('username');
-        const userrole = localStorage.getItem('userrole');
+    public loadExistingSession(): void {
+        const idToken: string = localStorage.getItem('id_token');
+        const expiresAt: any = localStorage.getItem('expires_at');
+        const username: string = localStorage.getItem('username');
+        const userrole: string = localStorage.getItem('userrole');
 
         if (idToken) {
             this.setToken(idToken);
@@ -65,5 +65,5 @@ export class AuthService {
             this.setUser(username);
             this.setRole(userrole);
         }
-    };
+    }
 }

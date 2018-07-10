@@ -3,11 +3,8 @@ import { Injectable } from '@angular/core';
 import { SnackBarService } from '../../core/snackService/snackService.service';
 import { AUTH_CONFIG } from './auth0-variables';
 import { AuthService } from '../../core/authentication/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import * as auth0 from 'auth0-js';
-
 
 @Injectable()
 export class UserAreaService {
@@ -17,21 +14,20 @@ export class UserAreaService {
   private readonly changePasswordRestPath: string = 'changepassword';
   authAlerts: any;
 
-  auth0 = new auth0.WebAuth({
+  auth0: any = new auth0.WebAuth({
     clientID: AUTH_CONFIG.clientID,
     domain: AUTH_CONFIG.domain,
     responseType: 'token id_token',
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
     redirectUri: AUTH_CONFIG.callbackURL,
-    scope: 'openid profile'
+    scope: 'openid profile',
   });
 
   constructor(
     public snackBar: SnackBarService,
     public router: Router,
     public translate: TranslateService,
-    private http: HttpClient,
-    public authService: AuthService
+    public authService: AuthService,
   ) {
     this.translate.get('alerts.authAlerts').subscribe((result: any) => {
       this.authAlerts = result;
@@ -43,16 +39,16 @@ export class UserAreaService {
   }
 
   handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0.parseHash((err: any, authResult: any) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.authService.setToken(authResult.idToken);
 
-        this.auth0.client.userInfo(authResult.accessToken, (err, data) => {
+        this.auth0.client.userInfo(authResult.accessToken, (_err: any, data: any) => {
           if (data) {
             const user: any = {
-              nickname: data['nickname'],
-              role:  data['http://app.example.com/group']
-            }
+              nickname: data.nickname,
+              role:  data['http://app.example.com/group'],
+            };
 
             this.setSession(authResult, user);
             this.authService.loadExistingSession();
@@ -60,27 +56,28 @@ export class UserAreaService {
             this.snackBar.openSnack(
               this.authAlerts.loginSuccess,
               4000,
-              'green'
-            )
+              'green',
+            );
           }
-        })
+        });
 
         this.router.navigate(['/restaurant']);
       }
-    })
+    });
   }
 
   setSession(authResult: any, user: any): void {
     // Set the time that the access token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    const expiresAt: any = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    localStorage.setItem('username', user.nickname)
+    localStorage.setItem('username', user.nickname);
     localStorage.setItem('userrole', user.role);
   }
 
   register(email: string, password: string): void {
+    // tslint:disable-next-line:no-console
     console.log('Not implemented yet.');
   }
 
@@ -101,6 +98,7 @@ export class UserAreaService {
   }
 
   changePassword(data: any): void {
+    // tslint:disable-next-line:no-console
     console.log('Not implemented yet');
   }
 }

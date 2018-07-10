@@ -2,17 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { UserAreaService } from '../user-area/shared/user-area.service';
 
 @Component({
-  selector: 'app-callback',
+  selector: 'public-callback',
   templateUrl: './callback.component.html',
-  styleUrls: ['./callback.component.scss']
+  styleUrls: ['./callback.component.scss'],
 })
-export class CallbackComponent implements OnInit {
+export class CallbackComponent {
 
   constructor(private userAuth: UserAreaService) {
     userAuth.handleAuthentication();
-   }
-
-  ngOnInit() {
   }
-
 }
